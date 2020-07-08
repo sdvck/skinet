@@ -1,3 +1,4 @@
+using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,9 +21,14 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // 1) transient - very short lifetime - everytime it's requested new initialization happen
+            // 2) scoped - available for the lifetime of the http request
+            // 3) singleton - longest lifetime - instantiated when the app starts and it is destroyed when app shutdown
+            services.AddScoped<IProductRepository, ProductRepository>();
+
             services.AddControllers();
 
-            // available for the lifetime of the http request
+            // available for the lifetime of the http request (scoped)
             services.AddDbContext<StoreContext>(x => x.UseSqlite(
                 _config.GetConnectionString("DefaultConnection")
             ));
