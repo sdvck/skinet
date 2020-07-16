@@ -15,6 +15,7 @@ namespace API.Extensions
             // 2) scoped - available for the lifetime of the http request
             // 3) singleton - longest lifetime - instantiated when the app starts and it is destroyed when app shutdown
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             services.Configure<ApiBehaviorOptions>(options =>
